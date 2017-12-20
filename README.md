@@ -1,9 +1,10 @@
-# TrackBack
+# TrackBack 
+*"A song feedback tool for musicians."*
 
 Yleisiä linkkejä:
 
 * [Linkki sovellukseen](http://ikuisma.users.cs.helsinki.fi/tsoha/)
-* [Linkki dokumentaatiooni](https://github.com/ikuisma/Tsoha-Bootstrap/blob/master/doc/dokumentaatio.pdf)
+* [Linkki dokumentaatiooni](https://github.com/ikuisma/TrackBack/blob/master/doc/dokumentaatio.pdf)
 
 ## Johdanto
 
