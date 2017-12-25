@@ -1,0 +1,26 @@
+{% extends "suunnitelmat/base.html" %}
+{% block content %}
+
+<h1>Edit track</h1>
+<form action="">
+    <div class="form-group">
+        <label for="title">Title</label>
+        <input class="form-control" type="text" id="title" value="Clementine"></input>
+    </div>
+    <div class="form-group">
+        <label for="url">Track URL</label>
+        <input class="form-control" type="url" id="url" value="https://soundcloud.com/qsma/clementine"></input>
+    </div>
+    <div class="form-group">
+        <label for="description">Description</label>
+        <textarea class="form-control" rows="2" id="description">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aspernatur consequuntur cumque ex exercitationem ipsa nostrum nulla obcaecati omnis, placeat praesentium qui quod quos rem sequi, tenetur, vitae voluptates. Consequuntur, saepe!
+        </textarea>
+    </div>
+    <div class="form-group">
+        <label class="checkbox-inline"><input type="checkbox" value="electronic">electronic</label>
+        <label class="checkbox-inline"><input type="checkbox" value="instrumental">instrumental</label>
+    </div>
+    <button type="submit" class="btn btn-primary">Submit</button>
+</form>
+
+{% endblock %}

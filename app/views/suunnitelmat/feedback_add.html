@@ -1,0 +1,21 @@
+{% extends "suunnitelmat/base.html" %}
+{% block content %}
+
+<h1>Add feedback – <span>Clementine</span></h1>
+<h2>Track</h2>
+<iframe width="100%" height="300" scrolling="no" frameborder="no" src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/371359655&amp;color=%23ff5500&amp;auto_play=false&amp;hide_related=false&amp;show_comments=true&amp;show_user=true&amp;show_reposts=false&amp;show_teaser=true&amp;visual=true"></iframe>
+
+<h2>Your feedback</h2>
+<form action="">
+    <div class="form-group">
+        <label for="summary">Summary</label>
+        <textarea class="form-control" rows="2" id="summary"></textarea>
+    </div>
+    <div class="form-group">
+        <label for="feedback">Feedback</label>
+        <textarea class="form-control" rows="10" id="feedback"></textarea>
+    </div>
+    <button type="submit" class="btn btn-primary">Submit</button>
+</form>
+
+{% endblock %}
