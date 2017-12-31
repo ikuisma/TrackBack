@@ -1,5 +1,7 @@
 <?php
 
+require 'app/models/musician.php';
+
   class HelloWorldController extends BaseController{
 
     public static function index(){
@@ -8,8 +10,11 @@
     }
 
     public static function sandbox(){
-      // Testaa koodiasi täällä
-      View::make('helloworld.html');
+        // Testaa koodiasi täällä
+        $musicians = Musician::all();
+        $qsma = Musician::find(1);
+        Kint::dump($musicians);
+        Kint::dump($qsma);
     }
 
     public static function login() {
