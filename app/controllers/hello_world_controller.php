@@ -55,7 +55,6 @@
         View::make('/suunnitelmat/feedback_edit.html');
     }
 
-
     public static function tags() {
         View::make('/suunnitelmat/tag_list.html');
     }
