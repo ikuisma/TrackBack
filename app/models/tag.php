@@ -27,7 +27,7 @@ class Tag extends BaseModel{
         $query->execute(array('id' => $id));
         $row = $query->fetch();
         if($row){
-            return new Musician(array(
+            return new Tag(array(
                 'id' => $row['id'],
                 'name' => $row['name']
             ));
