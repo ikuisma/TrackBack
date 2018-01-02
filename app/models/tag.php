@@ -42,4 +42,18 @@ class Tag extends BaseModel{
         $this->id = $row['id'];
     }
 
+    public static function findForTrack($track_id){
+        $query = DB::connection()->prepare('SELECT * FROM tag LEFT JOIN tracktag ON tag.id = tracktag.tag_id WHERE tracktag.track_id = :track_id');
+        $query->execute(array('track_id' => $track_id));
+        $rows = $query->fetchAll();
+        $tags = array();
+        foreach($rows as $row){
+            $tags[] = new Tag(array(
+                'id' => $row['id'],
+                'name' => $row['name']
+            ));
+        }
+        return $tags;
+    }
+
 }
