@@ -19,7 +19,7 @@
     <tbody>
         {% for tag in tags %}
         <tr>
-            <td>{{tag.name}}</td>
+            <td><a href="{{base_path}}/tags/{{tag.id}}">{{tag.name}}</a></td>
             <td align="right">
                 <a class="btn btn-default btn-sm" href="">Edit</a>
                 <a class="btn btn-default btn-sm" href="#">Delete</a>
