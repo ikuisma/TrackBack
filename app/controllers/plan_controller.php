@@ -1,6 +1,6 @@
 <?php
 
-  class HelloWorldController extends BaseController{
+  class PlanController extends BaseController{
 
     public static function sandbox(){
         // Testaa koodiasi täällä

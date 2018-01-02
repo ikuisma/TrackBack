@@ -5,55 +5,55 @@
   });
 
   $routes->get('/hiekkalaatikko', function() {
-    HelloWorldController::sandbox();
+    PlanController::sandbox();
   });
 
   $routes->get('/suunnitelmat/login', function() {
-      HelloWorldController::login();
+      PlanController::login();
   });
 
   $routes->get('/suunnitelmat/register', function() {
-      HelloWorldController::register();
+      PlanController::register();
   });
 
   $routes->get('/suunnitelmat/tracks', function() {
-      HelloWorldController::track_list();
+      PlanController::track_list();
   });
 
   $routes->get('/suunnitelmat/tracks/1', function() {
-      HelloWorldController::track_page();
+      PlanController::track_page();
   });
 
   $routes->get('/suunnitelmat/feedback', function() {
-      HelloWorldController::feedback_list();
+      PlanController::feedback_list();
   });
 
   $routes->get('/suunnitelmat/feedback/1', function() {
-      HelloWorldController::feedback_page();
+      PlanController::feedback_page();
   });
 
   $routes->get('/suunnitelmat/tracks/1/add_feedback', function() {
-      HelloWorldController::feedback_add();
+      PlanController::feedback_add();
   });
 
   $routes->get('/suunnitelmat/tracks/create_form', function() {
-      HelloWorldController::track_add();
+      PlanController::track_add();
   });
 
   $routes->get('/suunnitelmat/tags', function() {
-      HelloWorldController::tags();
+      PlanController::tags();
   });
 
   $routes->get('/suunnitelmat/tags/1/edit_form', function() {
-      HelloWorldController::tag_edit();
+      PlanController::tag_edit();
   });
 
   $routes->get('/suunnitelmat/feedback/1/edit_form', function() {
-      HelloWorldController::feedback_edit();
+      PlanController::feedback_edit();
   });
 
   $routes->get('/suunnitelmat/tracks/1/edit_form', function() {
-      HelloWorldController::track_edit();
+      PlanController::track_edit();
   });
 
   $routes->get('/tags', function() {
