@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% block content %}
+
+<form action="" class="form-inline" align="right">
+    <div class="form-group mx-sm-3">
+        <label for="tagname" class="sr-only">Name</label>
+        <input type="text" class="form-control" id="tagname">
+    </div>
+    <button type="submit" class="btn btn-primary">Create new tag</button>
+</form>
+
+<table class="table">
+    <thead class="thead-light">
+        <tr>
+            <th scope="col">Tag</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for tag in tags %}
+        <tr>
+            <td>{{tag.name}}</td>
+            <td align="right">
+                <a class="btn btn-default btn-sm" href="">Edit</a>
+                <a class="btn btn-default btn-sm" href="#">Delete</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+<nav>
+    <ul class="pagination">
+        <li class="page-item"><a class="page-link" href="#">Previous</a></li>
+        <li class="page-item"><a class="page-link" href="#">Next</a></li>
+    </ul>
+</nav>
+
+{% endblock %}
