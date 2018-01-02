@@ -7,4 +7,9 @@ class TrackController extends BaseController{
         View::make('tracks/index.html', array('tracks' => $tracks));
     }
 
+    public static function show($id){
+        $track = Track::find($id);
+        View::make('/tracks/track.html', array('track' => $track));
+    }
+
 }
