@@ -2,7 +2,7 @@
 
 class Track extends BaseModel {
 
-    public $id, $title, $url, $description;
+    public $id, $title, $url, $description, $tags;
 
     public function __construct($attributes){
         parent::__construct($attributes);
@@ -14,11 +14,13 @@ class Track extends BaseModel {
         $rows = $query->fetchAll();
         $tracks = array();
         foreach($rows as $row){
+            $id = $row['id'];
             $tracks[] = new Track(array(
-                'id' => $row['id'],
+                'id' => $id,
                 'title' => $row['title'],
                 'url' => $row['url'],
-                'description' => $row['description']
+                'description' => $row['description'],
+                'tags' => Tag::findForTrack($id)
             ));
         }
         return $tracks;
@@ -30,10 +32,11 @@ class Track extends BaseModel {
         $row = $query->fetch();
         if($row){
             return new Track(array(
-                'id' => $row['id'],
+                'id' => $id,
                 'title' => $row['title'],
                 'url' => $row['url'],
-                'description' => $row['description']
+                'description' => $row['description'],
+                'tags' => Tag::findForTrack($id)
             ));
         }
         return null;
