@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h1>Track – {{track.title}}</h1>
+<h2>URL</h2>
+<a href={{track.url}}>{{track.url}}</a>
+<h2>Description</h2>
+<p>{{track.description}}</p>
+{% endblock %}
