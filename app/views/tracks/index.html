@@ -15,6 +15,9 @@
             <td><a href="{{base_path}}/tracks/{{track.id}}">{{track.title}}</a></td>
             <td><a href="{{track.url}}">{{track.url}}</a></td>
             <td>
+                {% for tag in track.tags %}
+                <span class="badge badge-default">{{tag.name}}</span>
+                {% endfor %}
             </td>
         </tr>
         {% endfor %}
