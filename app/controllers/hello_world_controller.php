@@ -11,8 +11,10 @@
         // Testaa koodiasi täällä
         $musicians = Musician::all();
         $qsma = Musician::find(1);
+        $tags = Tag::all();
         Kint::dump($musicians);
         Kint::dump($qsma);
+        Kint::dump($tags);
     }
 
     public static function login() {
