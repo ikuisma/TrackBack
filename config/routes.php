@@ -67,3 +67,8 @@
   $routes->post('/tags', function(){
       TagController::store();
   });
+
+  $routes->get('/tracks', function(){
+      TrackController::index();
+  });
+

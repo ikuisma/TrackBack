@@ -1,7 +1,10 @@
 <?php
-/**
- * Created by IntelliJ IDEA.
- * User: ikuisma
- * Date: 02/01/2018
- * Time: 11.52
- */
+
+class TrackController extends BaseController{
+
+    public static function index(){
+        $tracks = Track::all();
+        View::make('tracks/index.html', array('tracks' => $tracks));
+    }
+
+}
