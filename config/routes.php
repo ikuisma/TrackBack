@@ -72,3 +72,7 @@
       TrackController::index();
   });
 
+  $routes->get('/tracks/:id', function($id){
+      TrackController::show($id);
+  });
+
