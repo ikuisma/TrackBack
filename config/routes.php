@@ -56,4 +56,6 @@
       HelloWorldController::track_edit();
   });
 
-
+  $routes->get('/tags', function() {
+      TagController::index();
+  });
