@@ -1,6 +1,6 @@
 <?php
 
-class Track {
+class Track extends BaseModel {
 
     public $id, $title, $url, $description;
 
