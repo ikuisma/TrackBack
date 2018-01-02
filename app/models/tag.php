@@ -35,4 +35,11 @@ class Tag extends BaseModel{
         return null;
     }
 
+    public function save(){
+        $query = DB::connection()->prepare('INSERT INTO tag (name) VALUES (:name) RETURNING id');
+        $query->execute(array('name' => $this->name));
+        $row = $query->fetch();
+        $this->id = $row['id'];
+    }
+
 }
