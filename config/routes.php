@@ -59,3 +59,7 @@
   $routes->get('/tags', function() {
       TagController::index();
   });
+
+  $routes->get('/tags/:id', function($id){
+      TagController::show($id);
+  });
