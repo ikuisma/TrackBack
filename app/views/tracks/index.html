@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block content %}
+
+<table class="table">
+    <thead class="thead-light">
+        <tr>
+            <th scope="col">Track</th>
+            <th scope="col">URL</th>
+            <th scope="col">Tags</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for track in tracks %}
+        <tr>
+            <td><a href="#">{{track.name}}</a></td>
+            <td><a href="{{track.url}}">{{track.url}}</a></td>
+            <td>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+<nav>
+    <ul class="pagination">
+        <li class="page-item"><a class="page-link" href="#">Previous</a></li>
+        <li class="page-item"><a class="page-link" href="#">Next</a></li>
+    </ul>
+</nav>
+
+{% endblock %}
