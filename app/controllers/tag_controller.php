@@ -18,6 +18,6 @@ class TagController extends BaseController{
             'name' => $params['name']
         ));
         $tag->save();
-        Redirect::to('/tags');
+        Redirect::to('/tags', array('message' => 'Your new tag has been added!'));
     }
 }

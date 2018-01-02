@@ -1,6 +1,12 @@
 {% extends "base.html" %}
 {% block content %}
 
+{% if message %}
+<div class="alert alert-success">
+    {{message}}
+</div>
+{% endif %}
+
 <form method="post" action="{{base_path}}/tags" class="form-inline" align="right">
     <div class="form-group mx-sm-3">
         <label for="tagname" class="sr-only">Name</label>
