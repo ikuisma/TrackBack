@@ -11,4 +11,13 @@ class TagController extends BaseController{
         $tag = Tag::find($id);
         View::make('tag/tag.html', array('tag' => $tag));
     }
+
+    public static function store(){
+        $params = $_POST;
+        $tag = new Tag(array(
+            'name' => $params['name']
+        ));
+        $tag->save();
+        Redirect::to('/tags');
+    }
 }
