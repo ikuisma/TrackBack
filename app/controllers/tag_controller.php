@@ -9,7 +9,8 @@ class TagController extends BaseController{
 
     public static function show($id){
         $tag = Tag::find($id);
-        View::make('tag/tag.html', array('tag' => $tag));
+        $tracks = Track::findForTag($id);
+        View::make('tag/tag.html', array('tag' => $tag, 'tracks' => $tracks));
     }
 
     public static function store(){
