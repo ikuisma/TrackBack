@@ -63,3 +63,7 @@
   $routes->get('/tags/:id', function($id){
       TagController::show($id);
   });
+
+  $routes->post('/tags', function(){
+      TagController::store();
+  });

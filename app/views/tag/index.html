@@ -1,10 +1,10 @@
 {% extends "base.html" %}
 {% block content %}
 
-<form action="" class="form-inline" align="right">
+<form method="post" action="{{base_path}}/tags" class="form-inline" align="right">
     <div class="form-group mx-sm-3">
         <label for="tagname" class="sr-only">Name</label>
-        <input type="text" class="form-control" id="tagname">
+        <input name="name" type="text" class="form-control" id="tagname">
     </div>
     <button type="submit" class="btn btn-primary">Create new tag</button>
 </form>
