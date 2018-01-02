@@ -6,4 +6,9 @@
 <a href={{track.url}}>{{track.url}}</a>
 <h2>Description</h2>
 <p>{{track.description}}</p>
+<h2>Tags</h2>
+{% for tag in track.tags %}
+    <span class="badge badge-default">{{tag.name}}</span>
+{% endfor %}
+
 {% endblock %}
