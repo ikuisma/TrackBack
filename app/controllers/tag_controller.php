@@ -2,9 +2,10 @@
 
 class TagController extends BaseController{
 
-    public static function index(){
+    public static function index($params=array()){
         $tags = Tag::all();
-        View::make('tag/index.html', array('tags' => $tags));
+        $params = array_merge($params, array('tags' => $tags));
+        View::make('tag/index.html', $params);
     }
 
     public static function show($id){
@@ -15,10 +16,14 @@ class TagController extends BaseController{
 
     public static function store(){
         $params = $_POST;
-        $tag = new Tag(array(
-            'name' => $params['name']
-        ));
-        $tag->save();
-        Redirect::to('/tags', array('message' => 'Your new tag has been added!'));
+        $attributes = array('name' => $params['name']);
+        $tag = new Tag($attributes);
+        $errors = $tag->errors();
+        if (count($errors) == 0){
+            $tag->save();
+            Redirect::to('/tags', array('message' => 'Your new tag has been added!'));
+        } else {
+            self::index(array('errors' => $errors, 'attributes' => $attributes));
+        }
     }
 }

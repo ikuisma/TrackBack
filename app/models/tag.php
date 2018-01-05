@@ -6,6 +6,7 @@ class Tag extends BaseModel{
 
     public function __construct($attributes){
         parent::__construct($attributes);
+        $this->validators = array('validateName');
     }
 
     public static function all() {
@@ -54,6 +55,37 @@ class Tag extends BaseModel{
             ));
         }
         return $tags;
+    }
+
+    public static function findWithName($name){
+        $query = DB::connection()->prepare('SELECT * FROM tag WHERE name = :name LIMIT 1');
+        $query->execute(array('name' => $name));
+        $row = $query->fetch();
+        if ($row) {
+            return new Tag(array(
+                'id' => $row['id'],
+                'name' => $row['name']
+            ));
+        }
+        return null;
+    }
+
+    public static function tagWithNameExists($name) {
+        return (self::findWithName($name) != null);
+    }
+
+    public function validateName() {
+        $errors = array();
+        if ($this::emptyString($this->name)){
+            $errors[] = 'Tag name can not be an empty string. ';
+        }
+        if ($this::exceedsLength($this->name,50)){
+            $errors[] = 'Tag name must be less than 50 characters long. ';
+        }
+        if ($this::tagWithNameExists($this->name)){
+            $errors[] = 'Tag with name ' . $this->name . ' already exists. ';
+        }
+        return $errors;
     }
 
 }
