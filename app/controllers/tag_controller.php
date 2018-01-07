@@ -26,4 +26,11 @@ class TagController extends BaseController{
             self::index(array('errors' => $errors, 'attributes' => $attributes));
         }
     }
+
+    public static function destroy($id){
+        $tag = new Tag(array('id' => $id));
+        $tag->destroy();
+        Redirect::to('/tags');
+    }
+
 }

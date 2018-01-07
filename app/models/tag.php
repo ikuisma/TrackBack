@@ -70,6 +70,11 @@ class Tag extends BaseModel{
         return null;
     }
 
+    public function destroy(){
+        $query = DB::connection()->prepare('DELETE FROM tag WHERE id = :id');
+        $query->execute(array('id' => $this->id));
+    }
+
     public static function tagWithNameExists($name) {
         return (self::findWithName($name) != null);
     }
