@@ -80,3 +80,7 @@
       TagController::destroy($id);
   });
 
+  $routes->get('/login', function(){
+      UserController::login();
+  });
+
