@@ -76,3 +76,7 @@
       TrackController::show($id);
   });
 
+  $routes->post('/tags/:id/destroy', function($id){
+      TagController::destroy($id);
+  });
+
