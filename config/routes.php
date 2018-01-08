@@ -84,3 +84,7 @@
       UserController::login();
   });
 
+  $routes->post('/login', function(){
+      UserController::handleLogin();
+  });
+
