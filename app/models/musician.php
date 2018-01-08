@@ -52,8 +52,8 @@ class Musician extends BaseModel{
     }
 
     public static function findByName($username) {
-        $query = DB::connection('SELECT * FROM tag WHERE username = :username LIMIT 1');
-        $query->execute(array('name' => $username));
+        $query = DB::connection()->prepare('SELECT * FROM musician WHERE username = :username LIMIT 1');
+        $query->execute(array('username' => $username));
         $row = $query->fetch();
         if ($row) {
             return new Musician(array(
