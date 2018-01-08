@@ -6,7 +6,7 @@ class Musician extends BaseModel{
 
     public function __construct($attributes){
         parent::__construct($attributes);
-        $this->validators = array('validateUsername');
+        $this->validators = array('validateUsername', 'validatePassword');
     }
 
     public static function all(){
@@ -71,21 +71,20 @@ class Musician extends BaseModel{
 
     public function save(){
         $query = DB::connection()->prepare('INSERT INTO musician (username, password) VALUES (:username, :password) RETURNING id');
-        $password = password_hash($this->password);
-        $query->execute(array('username' => $this->username, 'password' => $password));
+        $query->execute(array('username' => $this->username, 'password' => $this->password));
         $row = $query->fetch();
         $this->id = $row['id'];
     }
 
     public function validateUsername() {
         $errors = array();
-        if ($this::emptyString($this->name)){
+        if ($this::emptyString($this->username)){
             $errors[] = 'Username can not be an empty string. ';
         }
-        if ($this::exceedsLength($this->name, 200)){
+        if ($this::exceedsLength($this->username, 200)){
             $errors[] = 'Username must be less than 200 characters in length. ';
         }
-        if ($this::musicianWithNameExists){
+        if ($this::musicianWithNameExists($this->username)){
             $errors[] = 'Username already taken. ';
         }
         return $errors;
