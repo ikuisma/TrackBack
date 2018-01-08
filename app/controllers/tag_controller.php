@@ -15,8 +15,7 @@ class TagController extends BaseController{
     }
 
     public static function store(){
-        $params = $_POST;
-        $attributes = array('name' => $params['name']);
+        $attributes = self::stripTagAttributes($_POST);
         $tag = new Tag($attributes);
         $errors = $tag->errors();
         if (count($errors) == 0){
@@ -27,10 +26,32 @@ class TagController extends BaseController{
         }
     }
 
+    public static function edit($id){
+        $tag = Tag::find($id);
+        View::make('tag/edit.html', array('attributes' => $tag));
+    }
+
+    public static function update($id){
+        $attributes = self::stripTagAttributes($_POST);
+        $attributes['id'] = $id;
+        $tag = new Tag($attributes);
+        $errors = $tag->errors();
+        if (count($errors) == 0){
+            $tag->update();
+            Redirect::to('/tags', array('message' => 'The tag has been updated!'));
+        } else {
+            View::make('tag/edit.html', array('errors' => $errors, 'attributes' => $attributes));
+        }
+    }
+
     public static function destroy($id){
         $tag = new Tag(array('id' => $id));
         $tag->destroy();
         Redirect::to('/tags');
+    }
+
+    private static function stripTagAttributes($params){
+        return array('name' => $params['name']);
     }
 
 }

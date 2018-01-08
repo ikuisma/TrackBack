@@ -75,6 +75,11 @@ class Tag extends BaseModel{
         $query->execute(array('id' => $this->id));
     }
 
+    public function update(){
+        $query = DB::connection()->prepare('UPDATE tag SET name = :name WHERE id = :id');
+        $query->execute(array('id' => $this->id, 'name' => $this->name));
+    }
+
     public static function tagWithNameExists($name) {
         return (self::findWithName($name) != null);
     }
