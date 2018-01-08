@@ -1,6 +1,12 @@
 {% extends "base.html" %}
 {% block content %}
 
+{% if message %}
+<div class="alert alert-success">
+    {{message}}
+</div>
+{% endif %}
+
 <div class="alert alert-info">
     <strong>Info!</strong> Tags are currently the only model that can be added to the application. All other models require active user sessions which will be implemented for next week's submission.
 </div>

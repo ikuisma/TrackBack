@@ -13,7 +13,7 @@ class UserController extends BaseController{
             login();
         } else {
             $_SESSION['user'] = $musician->id;
-            Redirect::to('/');
+            Redirect::to('/', array('message' => 'Welcome, ' . $musician->username . '!'));
         }
     }
 
