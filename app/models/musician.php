@@ -37,4 +37,17 @@ class Musician extends BaseModel{
         return null;
     }
 
+    public static function authenticate($username, $password){
+        $query = DB::connection()->prepare('SELECT * FROM musician WHERE username = :username AND password = :password LIMIT 1');
+        $query->execute(array('username' => $username, 'password' => $password));
+        $row = $query->fetch();
+        if($row){
+            return new Musician(array(
+                'username' => $username,
+                'password' => $password
+            ));
+        }
+        return null;
+    }
+
 }

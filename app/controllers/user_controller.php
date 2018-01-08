@@ -6,5 +6,15 @@ class UserController extends BaseController{
         View::make('user/login.html');
     }
 
+    public static function handleLogin(){
+        $params = $_POST;
+        $musician = Musician::authenticate($params['username'], $params['password']);
+        if (!$musician){
+            login();
+        } else {
+            $_SESSION['user'] = $musician->id;
+            Redirect::to('/');
+        }
+    }
 
 }
