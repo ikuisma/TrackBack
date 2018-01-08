@@ -37,7 +37,7 @@ class UserController extends BaseController{
             $musician->save();
             UserController::authenticateLogin($musician->username, $musician->password);
         } else {
-            View::make('user/register.html', array('errors' => $errors));
+            View::make('user/register.html', array('errors' => $errors, 'attributes' => $musician));
         }
     }
 
