@@ -80,6 +80,14 @@
       TagController::destroy($id);
   });
 
+  $routes->get('/tags/:id/edit', function($id){
+      TagController::edit($id);
+  });
+
+  $routes->post('/tags/:id/edit', function($id){
+      TagController::update($id);
+  });
+
   $routes->get('/login', function(){
       UserController::login();
   });
