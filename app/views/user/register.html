@@ -6,6 +6,10 @@
 {{ forms.show_errors(errors) }}
 {% endif %}
 
+<div class="alert alert-danger">
+    Warning! Passwords are not hashed currently, please do not enter any of your commonly used passwords.
+</div>
+
 <h1>Register</h1>
 <form method="post" action="{{base_path}}/register">
     <div class="form-group">
