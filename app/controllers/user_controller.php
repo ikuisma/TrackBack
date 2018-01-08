@@ -10,7 +10,8 @@ class UserController extends BaseController{
         $params = $_POST;
         $musician = Musician::authenticate($params['username'], $params['password']);
         if (!$musician){
-            login();
+            $errors = array('Wrong username or password! ');
+            View::make('user/login.html', array('errors' => $errors));
         } else {
             $_SESSION['user'] = $musician->id;
             Redirect::to('/', array('message' => 'Welcome, ' . $musician->username . '!'));
