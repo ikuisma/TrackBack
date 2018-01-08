@@ -38,7 +38,7 @@
         <tr>
             <td><a href="{{base_path}}/tags/{{tag.id}}">{{tag.name}}</a></td>
             <td align="right">
-                <a class="btn btn-default btn-sm" href="" disabled>Edit</a>
+                {{forms.edit_button("#{base_path}/tags/#{tag.id}/edit")}}
                 {{forms.destroy_button("#{base_path}/tags/#{tag.id}/destroy")}}
             </td>
         </tr>
