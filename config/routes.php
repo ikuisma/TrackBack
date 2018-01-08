@@ -96,3 +96,10 @@
       UserController::handleLogin();
   });
 
+  $routes->get('/register', function(){
+      UserController::register();
+  });
+
+  $routes->post('/register', function(){
+      UserController::handleRegistration();
+  });
