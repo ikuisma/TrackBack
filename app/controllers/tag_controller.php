@@ -47,7 +47,7 @@ class TagController extends BaseController{
     public static function destroy($id){
         $tag = new Tag(array('id' => $id));
         $tag->destroy();
-        Redirect::to('/tags');
+        Redirect::to('/tags', array('message' => 'The tag has been deleted!'));
     }
 
     private static function stripTagAttributes($params){
