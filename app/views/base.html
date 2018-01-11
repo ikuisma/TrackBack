@@ -40,13 +40,23 @@
           <ul class="nav navbar-nav nav-list">
             <!-- Navigaation linkit -->
             <li><a href="{{base_path}}/tracks">Tracks</a></li>
-            <li class="disabled"><a href="#">Feedback</a></li>
-            <li class="disabled"><a href="#">Upload</a></li>
+            {% if user_logged_in%}
+              <li class="disabled"><a href="#">Feedback</a></li>
+              <li class="disabled"><a href="#">Upload</a></li>
+            {% endif %}
             <li><a href="{{base_path}}/tags">Tags</a></li>
           </ul>
           <ul class="nav navbar-nav navbar-right nav-list">
-            <li><a href="{{base_path}}/login">Login</a></li>
-            <li><a href="{{base_path}}/register">Register</a></li>
+            {% if user_logged_in %}
+            <li>
+              <form class="form-inline navbar-form" method="post" action="{{base_path}}/logout">
+                <button type="submit" class="btn btn-link">Logout</button>
+              </form>
+            </li>
+            {% else %}
+              <li><a href="{{base_path}}/login">Login</a></li>
+              <li><a href="{{base_path}}/register">Register</a></li>
+            {% endif %}
           </ul>
         </div>
       </div>

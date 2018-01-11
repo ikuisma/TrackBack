@@ -1,10 +1,14 @@
 <?php
 
+  function check_logged_in(){
+      BaseController::check_logged_in();
+  }
+
   $routes->get('/', function() {
       Redirect::to('/tracks');
   });
 
-  $routes->get('/hiekkalaatikko', function() {
+  $routes->get('/hiekkalaatikko', 'check_logged_in', function() {
     PlanController::sandbox();
   });
 
@@ -103,3 +107,8 @@
   $routes->post('/register', function(){
       UserController::handleRegistration();
   });
+
+  $routes->post('/logout', function(){
+      UserController::logout();
+  });
+

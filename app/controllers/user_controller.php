@@ -41,4 +41,9 @@ class UserController extends BaseController{
         }
     }
 
+    public static function logout() {
+        $_SESSION['user'] = null;
+        Redirect::to('/', array('message' => 'You have been logged out!'));
+    }
+
 }

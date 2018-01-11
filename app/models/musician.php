@@ -43,10 +43,7 @@ class Musician extends BaseModel{
         $query->execute(array('username' => $username, 'password' => $password));
         $row = $query->fetch();
         if($row){
-            return new Musician(array(
-                'username' => $username,
-                'password' => $password
-            ));
+            return new Musician(self::attributesFromRow($row));
         }
         return null;
     }
@@ -74,6 +71,14 @@ class Musician extends BaseModel{
         $query->execute(array('username' => $this->username, 'password' => $this->password));
         $row = $query->fetch();
         $this->id = $row['id'];
+    }
+
+    private static function attributesFromRow($row) {
+        return array(
+            'id' => $row['id'],
+            'username' => $row['username'],
+            'password' => $row['password']
+        );
     }
 
     public function validateUsername() {
