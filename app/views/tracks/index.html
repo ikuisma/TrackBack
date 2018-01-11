@@ -25,7 +25,7 @@
             <td><a href="{{base_path}}/tracks/{{track.id}}">{{track.title}}</a></td>
             <td><a href="{{track.url}}">{{track.url}}</a></td>
             <td>
-                {% for tag in track.tags %}
+                {% for tag in track.getTags() %}
                 <span class="badge badge-default">{{tag.name}}</span>
                 {% endfor %}
             </td>
