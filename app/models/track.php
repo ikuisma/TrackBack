@@ -6,6 +6,7 @@ class Track extends BaseModel {
 
     public function __construct($attributes){
         parent::__construct($attributes);
+        $this->validators = array('validateTitle', 'validateUrl', 'validateDescription', 'validateMusicianId');
     }
 
     public static function all(){
@@ -81,6 +82,54 @@ class Track extends BaseModel {
             'url' => $row['url'],
             'description' => $row['description']
         ));
+    }
+
+    public function validateTitle() {
+        $errors = array();
+        $title = $this->title;
+        if ($this::emptyString($title)){
+            $errors[] = 'Track title can not be empty. ';
+        }
+        if (self::exceedsLength($title, 100)){
+            $errors[] = 'Track title must be less than 100 characters long. ';
+        }
+        return $errors;
+    }
+
+    public function validateUrl() {
+        $errors = array();
+        $url = $this->url;
+        if ($this::emptyString($url)){
+            $errors[] = 'Track URL can not be empty. ';
+        }
+        if (self::exceedsLength($url, 100)){
+            $errors[] = 'Track URL must be less than 100 characters long. ';
+        }
+        if (!filter_var($url, 'FILTER_VALIDATE_URL')){
+            $errors[] = 'The track URL is not a valid URL. ';
+        }
+        return $errors;
+    }
+
+    public function validateDescription() {
+        $errors = array();
+        $description = $this->description;
+        if ($this::emptyString($description)){
+            $errors[]  = 'Track description can not be empty. ';
+        }
+        if ($this::exceedsLength($description, 200)){
+            $errors[] = 'Track description must be less than 200 characters long. ';
+        }
+        return $errors;
+    }
+
+    public function validateMusicianId() {
+        $errors = array();
+        $musician_id = $this->musician_id;
+        if (Musician::find($musician_id) == null) {
+            $errors[] = 'The musician ID can not be found in the database.';
+        }
+        return $errors;
     }
 
 }
