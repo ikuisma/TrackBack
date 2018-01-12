@@ -105,7 +105,7 @@ class Track extends BaseModel {
         if (self::exceedsLength($url, 100)){
             $errors[] = 'Track URL must be less than 100 characters long. ';
         }
-        if (!filter_var($url, 'FILTER_VALIDATE_URL')){
+        if (!filter_var($url, FILTER_VALIDATE_URL)){
             $errors[] = 'The track URL is not a valid URL. ';
         }
         return $errors;

@@ -7,17 +7,23 @@ class TrackController extends BaseController{
         View::make('tracks/index.html', array('tracks' => $tracks));
     }
 
-    public static function create(){
+    public static function create($params=array()){
         $tags = Tag::all();
-        View::make('tracks/new.html', array('tags' => $tags));
+        $params = array_merge($params, array('tags' => $tags));
+        View::make('tracks/new.html', $params);
     }
 
     public static function store(){
         $attributes = self::stripTrackAttributes($_POST);
         $attributes['musician_id'] = self::get_user_logged_in()->id;
         $track = new Track($attributes);
-        $track->save();
-        Redirect::to('/tracks', array('message' => 'Your track has been added!'));
+        $errors = $track->errors();
+        if (count($errors) == 0){
+            $track->save();
+            Redirect::to('/tracks', array('message' => 'Your track has been added!'));
+        } else {
+            View::make('tracks/new.html', array('errors' => $errors));
+        }
     }
 
     public static function show($id){
