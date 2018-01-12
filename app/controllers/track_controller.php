@@ -22,7 +22,8 @@ class TrackController extends BaseController{
             $track->save();
             Redirect::to('/tracks', array('message' => 'Your track has been added!'));
         } else {
-            View::make('tracks/new.html', array('errors' => $errors));
+            $tags = Tag::all();
+            View::make('tracks/new.html', array('errors' => $errors, 'attributes' => $attributes, 'tags' => $tags));
         }
     }
 
