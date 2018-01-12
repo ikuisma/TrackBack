@@ -109,15 +109,15 @@
           TrackController::show($id);
       });
 
-      $routes->post('/:id/destroy', function($id){
+      $routes->post('/:id/destroy', 'check_logged_in', function($id){
           TrackController::destroy($id);
       });
 
-      $routes->get('/:id/edit', function($id){
+      $routes->get('/:id/edit', 'check_logged_in', function($id){
           TrackController::edit($id);
       });
 
-      $routes->post('/:id/edit', function($id){
+      $routes->post('/:id/edit', 'check_logged_in', function($id){
           TrackController::update($id);
       });
 
