@@ -76,11 +76,11 @@
       TrackController::index();
   });
 
-  $routes->post('/tracks', function(){
+  $routes->post('/tracks', 'check_logged_in', function(){
       TrackController::store();
   });
 
-  $routes->get('/tracks/new', function(){
+  $routes->get('/tracks/new', 'check_logged_in', function(){
       TrackController::create();
   });
 
@@ -116,7 +116,7 @@
       UserController::handleRegistration();
   });
 
-  $routes->post('/logout', function(){
+  $routes->post('/logout', 'check_logged_in', function(){
       UserController::logout();
   });
 
