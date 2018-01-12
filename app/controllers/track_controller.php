@@ -37,6 +37,27 @@ class TrackController extends BaseController{
         Redirect::to('/', array('message' => 'The tag has been deleted'));
     }
 
+    public static function edit($id){
+        $track = Track::find($id);
+        $tags = Tag::all();
+        View::make('tracks/edit.html', array('tags' => $tags, 'attributes' => $track));
+    }
+
+    public static function update($id){
+        $attributes = self::stripTrackAttributes($_POST);
+        $attributes['musician_id'] = self::get_user_logged_in()->id;
+        $track = new Track($attributes);
+        $track->id = $id;
+        $errors = $track->errors();
+        if (count($errors) == 0){
+            $track->update();
+            $path = '/tracks/' . $id;
+            Redirect::to($path, array('message' => 'The track has been updated!'));
+        } else {
+            View::make('tracks/edit.html', array('errors' => $errors, 'attributes' => $attributes));
+        }
+    }
+
     private static function stripTrackAttributes($params){
         $attributes = array(
             'title' => $params['title'],

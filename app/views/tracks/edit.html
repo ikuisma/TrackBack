@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% import "macros/forms.html" as forms %}
+{% block content %}
+
+
+
+{% if errors %}
+{{ forms.show_errors(errors) }}
+{% endif %}
+
+<h1>Edit track</h1>
+<form method="post" action="{{base_path}}/tracks/{{attributes.id}}/edit">
+    <div class="form-group">
+        <label for="title">Title</label>
+        <input class="form-control" type="text" name="title" id="title" value="{{attributes.title}}"></input>
+    </div>
+    <div class="form-group">
+        <label for="url">Track URL</label>
+        <input class="form-control" type="url" name="url" id="url" value="{{attributes.url}}"></input>
+    </div>
+    <div class="form-group">
+        <label for="description">Description</label>
+        <textarea class="form-control" rows="2" name="description" id="description">{{attributes.description}}</textarea>
+    </div>
+    <div class="form-group">
+        {% for tag in tags %}
+            {% if tag.id in  attributes.tag_ids %}
+            <label class="checkbox-inline"><input type="checkbox" name="tag_ids[]" value="{{tag.id}}" checked>{{tag.name}}</label>
+            {% else %}
+            <label class="checkbox-inline"><input type="checkbox" name="tag_ids[]" value="{{tag.id}}">{{tag.name}}</label>
+            {% endif %}
+        {% endfor %}
+    </div>
+    <button type="submit" class="btn btn-primary">Submit</button>
+</form>
+
+{% endblock %}

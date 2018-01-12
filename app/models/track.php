@@ -20,16 +20,25 @@ class Track extends BaseModel {
         return $tracks;
     }
 
-    public function getTags() {
+    public function getTags(){
         return Tag::findForTrack($this->id);
     }
 
     public static function find($id){
-        $query = DB::connection()->prepare('SELECT * FROM track WHERE id = :id LIMIT 1');
+        $statement = 'SELECT track.id, track.musician_id, track.title, track.url, track.description, tracktag.tag_id ';
+        $statement .= 'FROM track LEFT JOIN tracktag ON track.id = tracktag.track_id ';
+        $statement .= 'WHERE track.id = :id';
+        $query = DB::connection()->prepare($statement);
         $query->execute(array('id' => $id));
-        $row = $query->fetch();
-        if($row){
-            return self::trackFromRow($row);
+        $rows = $query->fetchAll();
+        if($rows){
+            $track = self::trackFromRow($rows[0]);
+            $tag_ids = array();
+            foreach($rows as $row){
+                $tag_ids[] = $row['tag_id'];
+            }
+            $track->tag_ids = $tag_ids;
+            return $track;
         }
         return null;
     }
@@ -68,6 +77,28 @@ class Track extends BaseModel {
         $query->execute(array('id' => $this->id));
     }
 
+    public function update(){
+        $this->updateTrackTable();
+        $this->deleteTrackTags();
+        $this->insertIntoTrackTags();
+    }
+
+    private function updateTrackTable(){
+        $statement = 'UPDATE track SET title = :title, url = :url, description = :description WHERE id = :id';
+        $query = DB::connection()->prepare($statement);
+        $query->execute(array(
+            'id' => $this->id,
+            'title' => $this->title,
+            'description' => $this->description,
+            'url' => $this->url
+        ));
+    }
+
+    private function deleteTrackTags(){
+        $dropQuery = DB::connection()->prepare('DELETE FROM tracktag WHERE track_id = :track_id');
+        $dropQuery->execute(array("track_id" => $this->id));
+    }
+
     public static function findForTag($tag_id){
         $query = DB::connection()->prepare('SELECT * FROM track LEFT JOIN tracktag ON track.id = tracktag.track_id WHERE tracktag.tag_id = :tag_id');
         $query->execute(array('tag_id' => $tag_id));
@@ -89,7 +120,7 @@ class Track extends BaseModel {
         ));
     }
 
-    public function validateTitle() {
+    public function validateTitle(){
         $errors = array();
         $title = $this->title;
         if ($this::emptyString($title)){
@@ -101,7 +132,7 @@ class Track extends BaseModel {
         return $errors;
     }
 
-    public function validateUrl() {
+    public function validateUrl(){
         $errors = array();
         $url = $this->url;
         if ($this::emptyString($url)){
@@ -116,7 +147,7 @@ class Track extends BaseModel {
         return $errors;
     }
 
-    public function validateDescription() {
+    public function validateDescription(){
         $errors = array();
         $description = $this->description;
         if ($this::emptyString($description)){
@@ -128,7 +159,7 @@ class Track extends BaseModel {
         return $errors;
     }
 
-    public function validateMusicianId() {
+    public function validateMusicianId(){
         $errors = array();
         $musician_id = $this->musician_id;
         if (Musician::find($musician_id) == null) {

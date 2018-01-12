@@ -113,6 +113,14 @@
           TrackController::destroy($id);
       });
 
+      $routes->get('/:id/edit', function($id){
+          TrackController::edit($id);
+      });
+
+      $routes->post('/:id/edit', function($id){
+          TrackController::update($id);
+      });
+
   });
 
   $routes->get('/login', function(){
