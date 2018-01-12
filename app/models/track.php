@@ -10,12 +10,16 @@ class Track extends BaseModel {
     }
 
     public static function all(){
-        $query = DB::connection()->prepare('SELECT * FROM track');
+        $query = DB::connection()->prepare('SELECT id, title, url FROM track');
         $query->execute();
         $rows = $query->fetchAll();
         $tracks = array();
         foreach($rows as $row){
-            $tracks[] = self::trackFromRow($row);
+            $tracks[] = new Track(array(
+                'id' => $row['id'],
+                'title' => $row['title'],
+                'url' => $row['url']
+            ));
         }
         return $tracks;
     }
