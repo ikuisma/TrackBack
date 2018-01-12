@@ -63,6 +63,11 @@ class Track extends BaseModel {
         $this->insertIntoTrackTags();
     }
 
+    public function destroy(){
+        $query = DB::connection()->prepare('DELETE FROM track WHERE id = :id');
+        $query->execute(array('id' => $this->id));
+    }
+
     public static function findForTag($tag_id){
         $query = DB::connection()->prepare('SELECT * FROM track LEFT JOIN tracktag ON track.id = tracktag.track_id WHERE tracktag.tag_id = :tag_id');
         $query->execute(array('tag_id' => $tag_id));

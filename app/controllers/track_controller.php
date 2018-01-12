@@ -31,6 +31,12 @@ class TrackController extends BaseController{
         View::make('/tracks/track.html', array('track' => $track));
     }
 
+    public static function destroy($id){
+        $tag = new Track(array('id' => $id));
+        $tag->destroy();
+        Redirect::to('/', array('message' => 'The tag has been deleted'));
+    }
+
     private static function stripTrackAttributes($params){
         $attributes = array(
             'title' => $params['title'],
