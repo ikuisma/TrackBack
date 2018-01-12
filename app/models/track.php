@@ -2,7 +2,7 @@
 
 class Track extends BaseModel {
 
-    public $id, $title, $url, $description, $tag_ids;
+    public $id, $musician_id, $title, $url, $description, $tag_ids;
 
     public function __construct($attributes){
         parent::__construct($attributes);
@@ -14,13 +14,7 @@ class Track extends BaseModel {
         $rows = $query->fetchAll();
         $tracks = array();
         foreach($rows as $row){
-            $id = $row['id'];
-            $tracks[] = new Track(array(
-                'id' => $id,
-                'title' => $row['title'],
-                'url' => $row['url'],
-                'description' => $row['description']
-            ));
+            $tracks[] = self::trackFromRow($row);
         }
         return $tracks;
     }
@@ -34,21 +28,17 @@ class Track extends BaseModel {
         $query->execute(array('id' => $id));
         $row = $query->fetch();
         if($row){
-            return new Track(array(
-                'id' => $id,
-                'title' => $row['title'],
-                'url' => $row['url'],
-                'description' => $row['description']
-            ));
+            return self::trackFromRow($row);
         }
         return null;
     }
 
     private function insertIntoTrack(){
-        $statement = 'INSERT INTO track (title, url, description) VALUES (:title, :url, :description) RETURNING id';
+        $statement = 'INSERT INTO track (title, url, description, musician_id) VALUES (:title, :url, :description, :musician_id) RETURNING id';
         $query = DB::connection()->prepare($statement);
         $query->execute(array(
             'title' => $this->title,
+            'musician_id' => $this->musician_id,
             'url' => $this->url,
             'description' => $this->description
             )
@@ -78,15 +68,19 @@ class Track extends BaseModel {
         $rows = $query->fetchAll();
         $tracks = array();
         foreach($rows as $row){
-            $id = $row['id'];
-            $tracks[] = new Track(array(
-                'id' => $id,
-                'title' => $row['title'],
-                'url' => $row['url'],
-                'description' => $row['description']
-            ));
+            $tracks[] = self::trackFromRow($row);
         }
         return $tracks;
+    }
+
+    private static function trackFromRow($row){
+        return new Track(array(
+            'id' => $row['id'],
+            'title' => $row['title'],
+            'musician_id' => $row['musician_id'],
+            'url' => $row['url'],
+            'description' => $row['description']
+        ));
     }
 
 }

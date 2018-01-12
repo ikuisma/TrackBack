@@ -14,6 +14,7 @@ class TrackController extends BaseController{
 
     public static function store(){
         $attributes = self::stripTrackAttributes($_POST);
+        $attributes['musician_id'] = self::get_user_logged_in()->id;
         $track = new Track($attributes);
         $track->save();
         Redirect::to('/tracks', array('message' => 'Your track has been added!'));
