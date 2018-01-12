@@ -37,7 +37,7 @@ class TrackController extends BaseController{
         Redirect::to('/', array('message' => 'The tag has been deleted'));
     }
 
-    public static function edit($id){
+    public static function edit($id, $params=array()){
         $track = Track::find($id);
         $tags = Tag::all();
         View::make('tracks/edit.html', array('tags' => $tags, 'attributes' => $track));
@@ -54,7 +54,8 @@ class TrackController extends BaseController{
             $path = '/tracks/' . $id;
             Redirect::to($path, array('message' => 'The track has been updated!'));
         } else {
-            View::make('tracks/edit.html', array('errors' => $errors, 'attributes' => $attributes));
+            $tags = Tag::all();
+            View::make('tracks/edit.html', array('errors' => $errors, 'attributes' => $track, 'tags' => $tags));
         }
     }
 
