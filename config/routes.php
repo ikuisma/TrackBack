@@ -76,6 +76,14 @@
       TrackController::index();
   });
 
+  $routes->post('/tracks', function(){
+      TrackController::store();
+  });
+
+  $routes->get('/tracks/new', function(){
+      TrackController::create();
+  });
+
   $routes->get('/tracks/:id', function($id){
       TrackController::show($id);
   });

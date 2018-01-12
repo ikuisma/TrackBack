@@ -2,7 +2,7 @@
 
 class Track extends BaseModel {
 
-    public $id, $title, $url, $description;
+    public $id, $title, $url, $description, $tag_ids;
 
     public function __construct($attributes){
         parent::__construct($attributes);
@@ -42,6 +42,34 @@ class Track extends BaseModel {
             ));
         }
         return null;
+    }
+
+    private function insertIntoTrack(){
+        $statement = 'INSERT INTO track (title, url, description) VALUES (:title, :url, :description) RETURNING id';
+        $query = DB::connection()->prepare($statement);
+        $query->execute(array(
+            'title' => $this->title,
+            'url' => $this->url,
+            'description' => $this->description
+            )
+        );
+        $row = $query->fetch();
+        $this->id = $row['id'];
+    }
+
+    private function insertIntoTrackTags(){
+        if($this->tag_ids){
+            $statement = 'INSERT INTO tracktag (track_id, tag_id) VALUES (:track_id, :tag_id)';
+            $query = DB::connection()->prepare($statement);
+            foreach($this->tag_ids as $tag_id){
+                $query->execute(array('track_id' => $this->id, 'tag_id' => $tag_id));
+            }
+        }
+    }
+
+    public function save(){
+        $this->insertIntoTrack();
+        $this->insertIntoTrackTags();
     }
 
     public static function findForTag($tag_id){
