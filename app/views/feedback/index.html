@@ -23,7 +23,7 @@
             <tbody>
                 {% for feedback in given_feedback %}
                     <tr>
-                        <td><a href="">{{feedback.track_title}}</a></td>
+                        <td><a href="{{base_path}}/feedback/{{feedback.id}}">{{feedback.track_title}}</a></td>
                         <td><span>{{feedback.summary}}</span></td>
                     </tr>
                 {% endfor %}
@@ -41,7 +41,7 @@
             <tbody>
                 {% for feedback in received_feedback %}
                     <tr>
-                        <td><a href="">{{feedback.track_title}}</a></td>
+                        <td><a href="{{base_path}}/feedback/{{feedback.id}}">{{feedback.track_title}}</a></td>
                         <td><span>{{feedback.summary}}</span></td>
                     </tr>
                 {% endfor %}
