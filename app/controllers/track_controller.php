@@ -2,17 +2,20 @@
 
 class TrackController extends BaseController{
 
+    // Renders the track listing page.
     public static function index(){
         $tracks = Track::all();
         View::make('tracks/index.html', array('tracks' => $tracks));
     }
 
+    // Renders the track creation form.
     public static function create($params=array()){
         $tags = Tag::all();
         $params = array_merge($params, array('tags' => $tags));
         View::make('tracks/new.html', $params);
     }
 
+    // Handles new track creation submissions done via a POST request.
     public static function store(){
         $attributes = self::stripTrackAttributes($_POST);
         $attributes['musician_id'] = self::get_user_logged_in()->id;
@@ -27,23 +30,27 @@ class TrackController extends BaseController{
         }
     }
 
+    // Renders the page for a track with the given id.
     public static function show($id){
         $track = Track::find($id);
         View::make('/tracks/track.html', array('track' => $track));
     }
 
+    // Destroys the track with the given id.
     public static function destroy($id){
         $tag = new Track(array('id' => $id));
         $tag->destroy();
         Redirect::to('/', array('message' => 'The tag has been deleted'));
     }
 
-    public static function edit($id, $params=array()){
+    // Renders the edit page for a track with the given id.
+    public static function edit($id){
         $track = Track::find($id);
         $tags = Tag::all();
         View::make('tracks/edit.html', array('tags' => $tags, 'attributes' => $track));
     }
 
+    // Handled updates to a track with the given id done via a POST request.
     public static function update($id){
         $attributes = self::stripTrackAttributes($_POST);
         $attributes['musician_id'] = self::get_user_logged_in()->id;
@@ -60,6 +67,7 @@ class TrackController extends BaseController{
         }
     }
 
+    // Returns key-value pairs of Track-related attributes from the given parameter array.
     private static function stripTrackAttributes($params){
         $attributes = array(
             'title' => $params['title'],

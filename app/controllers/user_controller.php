@@ -2,15 +2,18 @@
 
 class UserController extends BaseController{
 
+    // Renders the login page.
     public static function login(){
         View::make('user/login.html');
     }
 
+    // Handles a login made via a POST request.
     public static function handleLogin(){
         $params = $_POST;
         UserController::authenticateLogin($params['username'], $params['password']);
     }
 
+    // Logs the user in if the given username and password clear out.
     private static function authenticateLogin($username, $password){
         $musician = Musician::authenticate($username, $password);
         if (!$musician){
@@ -22,10 +25,12 @@ class UserController extends BaseController{
         }
     }
 
+    // Renders the registration page.
     public static function register() {
         View::make('user/register.html');
     }
 
+    // Handles new registrations made via a POST request.
     public static function handleRegistration() {
         $params = $_POST;
         $musician = new Musician(array(
@@ -41,6 +46,7 @@ class UserController extends BaseController{
         }
     }
 
+    // Logs the user out and redirects to the front page.
     public static function logout() {
         $_SESSION['user'] = null;
         Redirect::to('/', array('message' => 'You have been logged out!'));
