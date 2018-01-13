@@ -129,6 +129,10 @@
           FeedbackController::index();
       });
 
+      $routes->get('/:id', 'check_logged_in', function($id) {
+          FeedbackController::show($id);
+      });
+
   });
 
   $routes->get('/login', function(){

@@ -10,4 +10,10 @@ class FeedbackController extends BaseController {
         View::make('/feedback/index.html', $params);
     }
 
+    public static function show($id) {
+        $params = array();
+        $params['feedback'] = Feedback::find($id);
+        View::make('/feedback/feedback.html', $params);
+    }
+
 }

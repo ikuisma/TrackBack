@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h1>Feedback – <span>Clementine</span></h1>
+<h2>Track</h2>
+<a href="{{feedback.track_url}}">{{feedback.track_url}}</a>
+<h2>Summary</h2>
+<p>{{feedback.summary}}</p>
+<h2>Description</h2>
+<p>{{feedback.description}}</p>
+
+{% endblock %}

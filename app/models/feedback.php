@@ -2,7 +2,7 @@
 
 class Feedback extends BaseModel {
 
-    public $id, $musician_id, $track_id, $summary, $description, $track_title;
+    public $id, $musician_id, $track_id, $summary, $description, $track_title, $track_url;
     const TABLE_NAME = 'feedback';
 
     public function __construct($attributes){
@@ -22,7 +22,7 @@ class Feedback extends BaseModel {
 
     public static function receivedFeedbackFor($musicianId) {
         $statement = 'SELECT feedback.id, feedback.musician_id, feedback.track_id, feedback.summary, ';
-        $statement .= 'track.title AS track_title ';
+        $statement .= 'feedback.description, track.title AS track_title ';
         $statement .= 'FROM feedback INNER JOIN track ON feedback.track_id = track.id ';
         $statement .= 'WHERE track.musician_id = :musician_id';
         $query = DB::connection()->prepare($statement);
@@ -37,7 +37,7 @@ class Feedback extends BaseModel {
 
     public static function givenFeedbackBy($musicianId) {
         $statement = 'SELECT feedback.id, feedback.musician_id, feedback.track_id, feedback.summary, ';
-        $statement .= 'track.title AS track_title ';
+        $statement .= 'feedback.description, track.title AS track_title ';
         $statement .= 'FROM feedback INNER JOIN track ON feedback.track_id = track.id ';
         $statement .= 'WHERE feedback.musician_id = :musician_id';
         $query = DB::connection()->prepare($statement);
@@ -52,11 +52,16 @@ class Feedback extends BaseModel {
 
 
     public static function find($id){
-        $query = DB::connection()->prepare('SELECT * FROM ' . self::TABLE_NAME . ' WHERE id = :id LIMIT 1');
+        $statement = 'SELECT feedback.id, feedback.musician_id, feedback.track_id, feedback.summary, ';
+        $statement .= 'feedback.description, track.title as track_title, track.url as track_url ';
+        $statement .= 'FROM feedback INNER JOIN track ON feedback.track_id = track.id ';
+        $statement .= 'WHERE feedback.id = :id ';
+        $statement .= 'LIMIT 1';
+        $query = DB::connection()->prepare($statement);
         $query->execute(array('id' => $id));
         $row = $query->fetch();
         if ($row) {
-            return self::feedbackFromRow($row);
+            return new Feedback($row);
         }
         return null;
     }
