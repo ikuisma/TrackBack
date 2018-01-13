@@ -123,6 +123,14 @@
 
   });
 
+  $routes->group('/feedback', function () use ($routes) {
+
+      $routes->get('/', 'check_logged_in', function() {
+          FeedbackController::index();
+      });
+
+  });
+
   $routes->get('/login', function(){
       UserController::login();
   });
