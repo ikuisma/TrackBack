@@ -11,9 +11,9 @@ class FeedbackController extends BaseController {
     }
 
     public static function show($id) {
-        $params = array();
-        $params['feedback'] = Feedback::find($id);
-        View::make('/feedback/feedback.html', $params);
+        $feedback = Feedback::find($id);
+        $track = Track::find($feedback->track_id);
+        View::make('/feedback/feedback.html', array('feedback' => $feedback, 'track' => $track));
     }
 
     public static function create($trackid) {
