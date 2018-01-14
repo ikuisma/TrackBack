@@ -40,7 +40,7 @@ class TrackController extends BaseController{
     public static function destroy($id){
         $tag = new Track(array('id' => $id));
         $tag->destroy();
-        Redirect::to('/', array('message' => 'The tag has been deleted'));
+        Redirect::to('/', array('message' => 'The track has been deleted'));
     }
 
     // Renders the edit page for a track with the given id.
