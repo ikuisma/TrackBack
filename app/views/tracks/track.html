@@ -25,6 +25,7 @@
     {{forms.edit_button("#{base_path}/tracks/#{track.id}/edit")}}
     {{forms.destroy_button("#{base_path}/tracks/#{track.id}/destroy")}}
     {% else %}
+    <a class="btn btn-default btn-sm" href="{{base_path}}/tracks/{{track.id}}/feedback/new">Give feedback</a>
     {% endif %}
 </div>
 
