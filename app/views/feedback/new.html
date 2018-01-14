@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% import "macros/forms.html" as forms %}
+{% block content %}
+
+{% if errors %}
+{{ forms.show_errors(errors) }}
+{% endif %}
+
+<h1>Add feedback – <span>{{track.title}}</span></h1>
+<h2>Track</h2>
+<a href="{{track.url}}">{{track.url}}</a>
+<h2>Your feedback</h2>
+<form action="{{base_path}}/feedback" method="post">
+    <input type="hidden" name="track_id" value="{{track.id}}">
+    <div class="form-group">
+        <label for="summary">Summary</label>
+        <textarea class="form-control" rows="2" id="summary" name="summary">{{attributes.summary}}</textarea>
+    </div>
+    <div class="form-group">
+        <label for="description">Description</label>
+        <textarea class="form-control" rows="10" id="description" name="description">{{attributes.description}}</textarea>
+    </div>
+    <button type="submit" class="btn btn-primary">Submit</button>
+</form>
+
+{% endblock %}

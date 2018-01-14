@@ -16,4 +16,24 @@ class FeedbackController extends BaseController {
         View::make('/feedback/feedback.html', $params);
     }
 
+    public static function create($trackid) {
+        $track = Track::find($trackid);
+        View::make('/feedback/new.html', array('track' => $track));
+    }
+
+    public static function store() {
+        $attributes = $_POST;
+        $musician = self::get_user_logged_in();
+        $feedback = new Feedback($attributes);
+        $feedback->musician_id = $musician->id;
+        $errors = $feedback->errors();
+        if (count($errors) == 0) {
+            $feedback->save();
+            Redirect::to('/', array('message' => 'Your feedback has been added! '));
+        } else {
+            $track = Track::find($feedback->track_id);
+            View::make('/feedback/new.html', array('errors' => $errors, 'attributes' => $attributes, 'track' => $track));
+        }
+    }
+
 }

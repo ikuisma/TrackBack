@@ -121,6 +121,10 @@
           TrackController::update($id);
       });
 
+     $routes->get('/:id/feedback/new', 'check_logged_in', function($trackid){
+         FeedbackController::create($trackid);
+     });
+
   });
 
   $routes->group('/feedback', function () use ($routes) {
@@ -131,6 +135,10 @@
 
       $routes->get('/:id', 'check_logged_in', function($id) {
           FeedbackController::show($id);
+      });
+
+      $routes->post('/', 'check_logged_in', function() {
+          FeedbackController::store();
       });
 
   });

@@ -7,6 +7,7 @@ class Feedback extends BaseModel {
 
     public function __construct($attributes){
         parent::__construct($attributes);
+        $this->validators = array('validateDescription', 'validateSummary', 'validateDomainLogic');
     }
 
     public static function all(){
@@ -94,6 +95,52 @@ class Feedback extends BaseModel {
     public function destroy() {
         $query = DB::connection()->prepare('DELETE FROM ' . self::TABLE_NAME . ' WHERE id = :id');
         $query->execute(array('id' => $this->id));
+    }
+
+    public function validateSummary() {
+        $summary = $this->summary;
+        $errors = array();
+        if (self::emptyString($summary)) {
+            $errors[] = 'The feedback summary can not be an empty string. ';
+        }
+        if (self::exceedsLength($summary, 150)) {
+            $errors[] = 'The feedback summary can not exceed 150 characters. ';
+        }
+        return $errors;
+    }
+
+    public function validateDescription() {
+        $description = $this->description;
+        $errors = array();
+        if (self::emptyString($description)) {
+            $errors[] = 'Description can not be an empty string.';
+        }
+        if (self::exceedsLength($description, 1000)) {
+            $errors[] = 'Description can not exceed 1000 characters.';
+        }
+        return $errors;
+    }
+
+    private function trackCreatorId() {
+        return Track::find($this->track_id)->musician_id;
+    }
+
+    private static function trackHasFeedbackFromMusician($track_id, $musician_id) {
+        $query = DB::connection()->prepare('SELECT id FROM feedback WHERE track_id = :track_id AND musician_id = :musician_id');
+        $query->execute(array('track_id' => $track_id, 'musician_id' => $musician_id));
+        $rows = $query->fetchAll();
+        return (count($rows) != 0);
+    }
+
+    public function validateDomainLogic() {
+        $errors = array();
+        if (self::trackHasFeedbackFromMusician($this->track_id, $this->musician_id)) {
+            $errors[] = 'You have already given feedback for this track. ';
+        }
+        if (self::trackCreatorId() == $this->musician_id) {
+            $errors[] = 'You can not give feedback for tracks that you have uploaded. ';
+        }
+        return $errors;
     }
 
     private static function feedbackFromRow($row) {
