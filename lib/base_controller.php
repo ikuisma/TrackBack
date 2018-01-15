@@ -17,4 +17,11 @@
         }
     }
 
+    public static function check_user_can_upload() {
+        $musician = self::get_user_logged_in();
+        if ($musician->hasPermissionToUpload() == false) {
+            Redirect::to('/', array('message' => 'You have to give feedback before you can upload again. '));
+        }
+    }
+
   }

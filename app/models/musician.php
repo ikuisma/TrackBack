@@ -81,6 +81,12 @@ class Musician extends BaseModel{
         );
     }
 
+    public function hasPermissionToUpload() {
+        $trackCount = Track::trackCountForMusician($this->id);
+        $feedbackCount = Feedback::feedbackCountForMusician($this->id);
+        return (($trackCount - $feedbackCount) <= 0);
+    }
+
     public function validateUsername() {
         $errors = array();
         if ($this::emptyString($this->username)){

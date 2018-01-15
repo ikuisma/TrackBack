@@ -114,6 +114,12 @@ class Track extends BaseModel {
         return $tracks;
     }
 
+    public static function trackCountForMusician($musician_id){
+        $query = DB::connection()->prepare('SELECT COUNT (id) as track_count FROM track WHERE musician_id = :musician_id');
+        $query->execute(array('musician_id' => $musician_id));
+        return $query->fetchColumn();
+    }
+
     private static function trackFromRow($row){
         return new Track(array(
             'id' => $row['id'],

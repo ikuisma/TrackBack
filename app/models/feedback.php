@@ -97,6 +97,12 @@ class Feedback extends BaseModel {
         $query->execute(array('id' => $this->id));
     }
 
+    public static function feedbackCountForMusician($musician_id) {
+        $query = DB::connection()->prepare('SELECT COUNT(id) FROM feedback WHERE musician_id = :musician_id');
+        $query->execute(array('musician_id' => $musician_id));
+        return $query->fetchColumn();
+    }
+
     public function validateDescription() {
         $description = $this->description;
         $errors = array();

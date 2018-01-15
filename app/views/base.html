@@ -41,8 +41,15 @@
             <!-- Navigaation linkit -->
             <li><a href="{{base_path}}/tracks">Tracks</a></li>
             {% if user_logged_in%}
+
               <li><a href="{{base_path}}/feedback">Feedback</a></li>
-              <li><a href="{{base_path}}/tracks/new">Upload</a></li>
+
+              {% if user_logged_in.hasPermissionToUpload() %}
+                <li><a href="{{base_path}}/tracks/new">Upload</a></li>
+              {% else %}
+                <li class="disabled"><a href="#">Upload</a></li>
+              {% endif %}
+
             {% endif %}
             <li><a href="{{base_path}}/tags">Tags</a></li>
           </ul>

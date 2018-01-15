@@ -4,6 +4,10 @@
       BaseController::check_logged_in();
   }
 
+  function check_user_can_upload(){
+      BaseController::check_user_can_upload();
+  }
+
   $routes->get('/', function() {
       Redirect::to('/tracks');
   });
@@ -97,11 +101,11 @@
           TrackController::index();
       });
 
-      $routes->post('/', 'check_logged_in', function(){
+      $routes->post('/', 'check_logged_in', 'check_user_can_upload', function(){
           TrackController::store();
       });
 
-      $routes->get('/new', 'check_logged_in', function(){
+      $routes->get('/new', 'check_logged_in', 'check_user_can_upload', function(){
           TrackController::create();
       });
 
