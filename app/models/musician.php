@@ -15,11 +15,7 @@ class Musician extends BaseModel{
         $rows = $query->fetchAll();
         $musicians = array();
         foreach($rows as $row) {
-            $musicians[] = new Musician(array(
-                'id' => $row['id'],
-                'username' => $row['username'],
-                'password' => $row['password']
-            ));
+            $musicians[] = new Musician($row);
         }
         return $musicians;
     }
@@ -29,11 +25,7 @@ class Musician extends BaseModel{
         $query->execute(array('id' => $id));
         $row = $query->fetch();
         if($row){
-            return new Musician(array(
-                'id' => $row['id'],
-                'username' => $row['username'],
-                'password' => $row['password']
-            ));
+            return new Musician($row);
         }
         return null;
     }
@@ -43,7 +35,7 @@ class Musician extends BaseModel{
         $query->execute(array('username' => $username, 'password' => $password));
         $row = $query->fetch();
         if($row){
-            return new Musician(self::attributesFromRow($row));
+            return new Musician($row);
         }
         return null;
     }
@@ -53,11 +45,7 @@ class Musician extends BaseModel{
         $query->execute(array('username' => $username));
         $row = $query->fetch();
         if ($row) {
-            return new Musician(array(
-                'id' => $row['id'],
-                'username' => $row['username'],
-                'password' => $row['password']
-            ));
+            return new Musician($row);
         }
         return null;
     }
@@ -71,14 +59,6 @@ class Musician extends BaseModel{
         $query->execute(array('username' => $this->username, 'password' => $this->password));
         $row = $query->fetch();
         $this->id = $row['id'];
-    }
-
-    private static function attributesFromRow($row) {
-        return array(
-            'id' => $row['id'],
-            'username' => $row['username'],
-            'password' => $row['password']
-        );
     }
 
     public function hasPermissionToUpload() {

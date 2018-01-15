@@ -15,11 +15,7 @@ class Track extends BaseModel {
         $rows = $query->fetchAll();
         $tracks = array();
         foreach($rows as $row){
-            $tracks[] = new Track(array(
-                'id' => $row['id'],
-                'title' => $row['title'],
-                'url' => $row['url']
-            ));
+            $tracks[] = new Track($row);
         }
         return $tracks;
     }
@@ -36,7 +32,7 @@ class Track extends BaseModel {
         $query->execute(array('id' => $id));
         $rows = $query->fetchAll();
         if($rows){
-            $track = self::trackFromRow($rows[0]);
+            $track = new Track($rows[0]);
             $tag_ids = array();
             foreach($rows as $row){
                 $tag_ids[] = $row['tag_id'];
@@ -109,7 +105,7 @@ class Track extends BaseModel {
         $rows = $query->fetchAll();
         $tracks = array();
         foreach($rows as $row){
-            $tracks[] = self::trackFromRow($row);
+            $tracks[] = new Track($row);
         }
         return $tracks;
     }
@@ -118,16 +114,6 @@ class Track extends BaseModel {
         $query = DB::connection()->prepare('SELECT COUNT (id) as track_count FROM track WHERE musician_id = :musician_id');
         $query->execute(array('musician_id' => $musician_id));
         return $query->fetchColumn();
-    }
-
-    private static function trackFromRow($row){
-        return new Track(array(
-            'id' => $row['id'],
-            'title' => $row['title'],
-            'musician_id' => $row['musician_id'],
-            'url' => $row['url'],
-            'description' => $row['description']
-        ));
     }
 
     public function validateTitle(){

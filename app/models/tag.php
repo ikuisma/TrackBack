@@ -15,10 +15,7 @@ class Tag extends BaseModel{
         $rows = $query->fetchAll();
         $tags = array();
         foreach($rows as $row){
-            $tags[] = new Tag(array(
-                'id' => $row['id'],
-                'name' => $row['name']
-            ));
+            $tags[] = new Tag($row);
         }
         return $tags;
     }
@@ -28,10 +25,7 @@ class Tag extends BaseModel{
         $query->execute(array('id' => $id));
         $row = $query->fetch();
         if($row){
-            return new Tag(array(
-                'id' => $row['id'],
-                'name' => $row['name']
-            ));
+            return new Tag($row);
         }
         return null;
     }
@@ -49,10 +43,7 @@ class Tag extends BaseModel{
         $rows = $query->fetchAll();
         $tags = array();
         foreach($rows as $row){
-            $tags[] = new Tag(array(
-                'id' => $row['id'],
-                'name' => $row['name']
-            ));
+            $tags[] = new Tag($row);
         }
         return $tags;
     }
@@ -62,10 +53,7 @@ class Tag extends BaseModel{
         $query->execute(array('name' => $name));
         $row = $query->fetch();
         if ($row) {
-            return new Tag(array(
-                'id' => $row['id'],
-                'name' => $row['name']
-            ));
+            return new Tag($row);
         }
         return null;
     }

@@ -16,7 +16,7 @@ class Feedback extends BaseModel {
         $rows = $query->fetchAll();
         $feedback = array();
         foreach($rows as $row){
-            $feedback[] = self::feedbackFromRow($row);
+            $feedback[] = new Feedback($row);
         }
         return $feedback;
     }
@@ -157,16 +157,6 @@ class Feedback extends BaseModel {
             $errors[] = 'You can not give feedback for tracks that you have uploaded. ';
         }
         return $errors;
-    }
-
-    private static function feedbackFromRow($row) {
-        return $feedback[] = new Feedback(array(
-            'id' => $row('id'),
-            'musician_id' => $row('musician_id'),
-            'track_id' => $row('track_id'),
-            'summary' => $row('summary'),
-            'description' => $row('description')
-        ));
     }
 
 }
