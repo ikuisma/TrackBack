@@ -49,7 +49,7 @@ class FeedbackController extends BaseController {
         $feedback->id = $id;
         $feedback->musician_id = $musician->id;
         $feedback->track_id = Feedback::find($id)->track_id;
-        $errors = $feedback->validateEditedValues();
+        $errors = $feedback->errors();
         if (count($errors) == 0) {
             $feedback->update();
             Redirect::to('/feedback/'.$id);

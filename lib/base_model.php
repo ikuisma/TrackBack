@@ -16,17 +16,12 @@
     }
 
     public function errors(){
-        return $this->validateErrors($this->validators);
-    }
-
-    public function validateErrors($validators) {
         $errors = array();
-        foreach($validators as $validator){
+        foreach($this->validators as $validator){
             $errors = array_merge($errors, $this->{$validator}());
         }
         return $errors;
     }
-
 
     public static function succeedsLength($string, $minLength) {
         return (strlen($string) < $minLength);
