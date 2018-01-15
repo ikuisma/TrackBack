@@ -149,6 +149,10 @@
           FeedbackController::update($id);
       });
 
+      $routes->post('/:id/destroy', 'check_logged_in', function($id) {
+          FeedbackController::destroy($id);
+      });
+
   });
 
   $routes->get('/login', function(){

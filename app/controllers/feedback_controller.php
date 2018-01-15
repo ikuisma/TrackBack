@@ -52,10 +52,21 @@ class FeedbackController extends BaseController {
         $errors = $feedback->errors();
         if (count($errors) == 0) {
             $feedback->update();
-            Redirect::to('/feedback/'.$id);
+            Redirect::to('/feedback/'.$id, array('message' => 'Your feedback has been updated! '));
         } else {
             $track = Track::find($feedback->track_id);
             View::make('/feedback/edit.html', array('attributes' => $feedback, 'track' => $track, 'errors' => $errors));
+        }
+    }
+
+    public static function destroy($id) {
+        $feedback = Feedback::find($id);
+        $musician = self::get_user_logged_in();
+        if ($musician->id != $feedback->musician_id) {
+            Redirect::to('/tracks', array('message' => 'You do not have permission to delete feedback that is your own. '));
+        } else {
+            $feedback->destroy();
+            Redirect::to('/tracks', array('message' => 'Your feedback has been deleted. '));
         }
     }
 

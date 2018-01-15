@@ -2,6 +2,12 @@
 {% import "macros/forms.html" as forms %}
 {% block content %}
 
+{% if message %}
+<div class="alert alert-success">
+    {{message}}
+</div>
+{% endif %}
+
 <h1>Feedback – <span>{{track.title}}</span></h1>
 <h2>Track</h2>
 <a href="{{feedback.track_url}}">{{feedback.track_url}}</a>
@@ -9,7 +15,11 @@
 <p>{{feedback.summary}}</p>
 <h2>Description</h2>
 <p>{{feedback.description}}</p>
-{% if user_logged_in.id == feedback.musician_id %}
+
+<div class="btn-group">
+    {% if user_logged_in.id == feedback.musician_id %}
     {{forms.edit_button("#{base_path}/feedback/#{feedback.id}/edit")}}
-{% endif %}
+    {{forms.destroy_button("#{base_path}/feedback/#{feedback.id}/destroy")}}
+    {% endif %}
+</div>
 {% endblock %}
