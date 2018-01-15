@@ -7,7 +7,7 @@ class Feedback extends BaseModel {
 
     public function __construct($attributes){
         parent::__construct($attributes);
-        $this->validators = array('validateDescription', 'validateSummary', 'validateDomainLogic', 'canCreateFeedbackValidation');
+        $this->validators = array('validateDescription', 'validateSummary', 'validateDomainLogic', 'canCreateFeedback');
     }
 
     public static function all(){
@@ -132,7 +132,7 @@ class Feedback extends BaseModel {
         return (count($rows) != 0);
     }
 
-    public function canCreateFeedbackValidation() {
+    public function canCreateFeedback() {
         $errors = array();
         if ($this->id != null) {
             // Feedback has already been given, no need to validate.
