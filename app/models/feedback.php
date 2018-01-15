@@ -7,7 +7,7 @@ class Feedback extends BaseModel {
 
     public function __construct($attributes){
         parent::__construct($attributes);
-        $this->validators = array('validateDescription', 'validateSummary', 'validateDomainLogic');
+        $this->validators = array('validateDescription', 'validateSummary', 'validateDomainLogic', 'canCreateFeedbackValidation');
     }
 
     public static function all(){
@@ -125,18 +125,28 @@ class Feedback extends BaseModel {
         return Track::find($this->track_id)->musician_id;
     }
 
-    private static function trackHasSeparateFeedbackFromMusician($track_id, $musician_id, $feedback_id) {
-        $query = DB::connection()->prepare('SELECT id FROM feedback WHERE track_id = :track_id AND musician_id = :musician_id AND id != :id');
-        $query->execute(array('track_id' => $track_id, 'musician_id' => $musician_id, 'id' => $feedback_id));
+    private static function trackHasSeparateFeedbackFromMusician($track_id, $musician_id) {
+        $query = DB::connection()->prepare('SELECT id FROM feedback WHERE track_id = :track_id AND musician_id = :musician_id');
+        $query->execute(array('track_id' => $track_id, 'musician_id' => $musician_id));
         $rows = $query->fetchAll();
         return (count($rows) != 0);
     }
 
+    public function canCreateFeedbackValidation() {
+        $errors = array();
+        if ($this->id != null) {
+            // Feedback has already been given, no need to validate.
+            return $errors;
+        } else {
+            if (self::trackHasSeparateFeedbackFromMusician($this->track_id, $this->musician_id)) {
+                $errors[] = 'You have already given feedback for this track. ';
+            }
+            return $errors;
+        }
+    }
+
     public function validateDomainLogic() {
         $errors = array();
-        if (self::trackHasSeparateFeedbackFromMusician($this->track_id, $this->musician_id, $this->id)) {
-            $errors[] = 'You have already given feedback for this track. ';
-        }
         if (self::trackCreatorId() == $this->musician_id) {
             $errors[] = 'You can not give feedback for tracks that you have uploaded. ';
         }
