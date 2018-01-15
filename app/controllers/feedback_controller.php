@@ -36,4 +36,27 @@ class FeedbackController extends BaseController {
         }
     }
 
+    public static function edit($id) {
+        $feedback = Feedback::find($id);
+        $track = Track::find($feedback->track_id);
+        View::make('/feedback/edit.html', array('attributes' => $feedback, 'track' => $track));
+    }
+
+    public static function update($id) {
+        $attributes = $_POST;
+        $musician = self::get_user_logged_in();
+        $feedback = new Feedback($attributes);
+        $feedback->id = $id;
+        $feedback->musician_id = $musician->id;
+        $feedback->track_id = Feedback::find($id)->track_id;
+        $errors = $feedback->validateEditedValues();
+        if (count($errors) == 0) {
+            $feedback->update();
+            Redirect::to('/feedback/'.$id);
+        } else {
+            $track = Track::find($feedback->track_id);
+            View::make('/feedback/edit.html', array('attributes' => $feedback, 'track' => $track, 'errors' => $errors));
+        }
+    }
+
 }

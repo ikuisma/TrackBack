@@ -141,6 +141,14 @@
           FeedbackController::store();
       });
 
+      $routes->get('/:id/edit', 'check_logged_in', function($id) {
+          FeedbackController::edit($id);
+      });
+
+      $routes->post('/:id/edit', 'check_logged_in', function($id) {
+          FeedbackController::update($id);
+      });
+
   });
 
   $routes->get('/login', function(){

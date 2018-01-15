@@ -7,7 +7,7 @@ class Feedback extends BaseModel {
 
     public function __construct($attributes){
         parent::__construct($attributes);
-        $this->validators = array('validateDescription', 'validateSummary', 'validateDomainLogic');
+        $this->validators = array('validateDescription', 'validateSummary', 'validateTrackDoesNotBelongToMusician', 'validateTrackHasNoFeedbackFromMusician');
     }
 
     public static function all(){
@@ -51,7 +51,6 @@ class Feedback extends BaseModel {
         return $feedback;
     }
 
-
     public static function find($id){
         $statement = 'SELECT feedback.id, feedback.musician_id, feedback.track_id, feedback.summary, ';
         $statement .= 'feedback.description, track.title as track_title, track.url as track_url ';
@@ -83,12 +82,13 @@ class Feedback extends BaseModel {
         $queryString = 'UPDATE ' . self::TABLE_NAME;
         $queryString .= ' SET description = :description, musician_id = :musician_id, track_id = :track_id, summary = :summary ';
         $queryString .= ' WHERE id = :id';
-        $query = DB::connection()->query($queryString);
+        $query = DB::connection()->prepare($queryString);
         $query->execute(array(
             'musician_id' => $this->musician_id,
             'track_id' => $this->track_id,
             'summary' => $this->summary,
-            'description' => $this->description
+            'description' => $this->description,
+            'id' => $this->id
         ));
     }
 
@@ -132,15 +132,24 @@ class Feedback extends BaseModel {
         return (count($rows) != 0);
     }
 
-    public function validateDomainLogic() {
+    public function validateTrackHasNoFeedbackFromMusician() {
         $errors = array();
         if (self::trackHasFeedbackFromMusician($this->track_id, $this->musician_id)) {
             $errors[] = 'You have already given feedback for this track. ';
         }
+        return $errors;
+    }
+
+    public function validateTrackDoesNotBelongToMusician() {
+        $errors = array();
         if (self::trackCreatorId() == $this->musician_id) {
             $errors[] = 'You can not give feedback for tracks that you have uploaded. ';
         }
         return $errors;
+    }
+
+    public function validateEditedValues() {
+        return $this->validateErrors(array('validateDescription', 'validateSummary', 'validateTrackDoesNotBelongToMusician'));
     }
 
     private static function feedbackFromRow($row) {

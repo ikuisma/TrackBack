@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% import "macros/forms.html" as forms %}
+{% block content %}
+
+{% if errors %}
+{{ forms.show_errors(errors) }}
+{% endif %}
+
+<h1>Edit feedback – <span>{{track.title}}</span></h1>
+<h2>Track</h2>
+
+<h2>Your feedback</h2>
+<form action="{{base_path}}/feedback/{{attributes.id}}/edit" method="post">
+    <div class="form-group">
+        <label for="summary">Summary</label>
+        <textarea class="form-control" rows="2" id="summary" name="summary">{{attributes.summary}}</textarea>
+    </div>
+    <div class="form-group">
+        <label for="description">Description</label>
+        <textarea class="form-control" rows="10" name="description" id="description">{{attributes.description}}</textarea>
+    </div>
+    <button type="submit" class="btn btn-primary">Submit</button>
+</form>
+
+{% endblock %}
