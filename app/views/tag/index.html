@@ -12,6 +12,7 @@
 {{ forms.show_errors(errors) }}
 {% endif %}
 
+{% if user_logged_in %}
 <form method="post" action="{{base_path}}/tags" class="form-inline" align="right">
     <div class="form-group mx-sm-3">
         <label for="tagname" class="sr-only">Name</label>
@@ -19,6 +20,7 @@
     </div>
     <button type="submit" class="btn btn-primary">Create new tag</button>
 </form>
+{% endif %}
 
 <table class="table">
     <thead class="thead-light">
@@ -32,18 +34,14 @@
         <tr>
             <td><a href="{{base_path}}/tags/{{tag.id}}">{{tag.name}}</a></td>
             <td align="right">
-                {{forms.edit_button("#{base_path}/tags/#{tag.id}/edit")}}
-                {{forms.destroy_button("#{base_path}/tags/#{tag.id}/destroy")}}
+                {% if user_logged_in %}
+                    {{forms.edit_button("#{base_path}/tags/#{tag.id}/edit")}}
+                    {{forms.destroy_button("#{base_path}/tags/#{tag.id}/destroy")}}
+                {% endif %}
             </td>
         </tr>
         {% endfor %}
     </tbody>
 </table>
-<nav style="display: none;">
-    <ul class="pagination">
-        <li class="page-item"><a class="page-link" href="#">Previous</a></li>
-        <li class="page-item"><a class="page-link" href="#">Next</a></li>
-    </ul>
-</nav>
 
 {% endblock %}

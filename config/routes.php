@@ -73,19 +73,19 @@
           TagController::show($id);
       });
 
-      $routes->post('/', function(){
+      $routes->post('/', 'check_logged_in', function(){
           TagController::store();
       });
 
-      $routes->post('/:id/destroy', function($id){
+      $routes->post('/:id/destroy', 'check_logged_in', function($id){
           TagController::destroy($id);
       });
 
-      $routes->get('/:id/edit', function($id){
+      $routes->get('/:id/edit', 'check_logged_in', function($id){
           TagController::edit($id);
       });
 
-      $routes->post('/:id/edit', function($id){
+      $routes->post('/:id/edit', 'check_logged_in', function($id){
           TagController::update($id);
       });
 
