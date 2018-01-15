@@ -116,6 +116,10 @@ class Track extends BaseModel {
         return $query->fetchColumn();
     }
 
+    public function hasFeedbackFrom($musician_id) {
+        return Feedback::trackHasSeparateFeedbackFromMusician($this->id, $musician_id);
+    }
+
     public function validateTitle(){
         $errors = array();
         $title = $this->title;

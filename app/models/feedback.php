@@ -131,7 +131,7 @@ class Feedback extends BaseModel {
         return Track::find($this->track_id)->musician_id;
     }
 
-    private static function trackHasSeparateFeedbackFromMusician($track_id, $musician_id) {
+    public static function trackHasSeparateFeedbackFromMusician($track_id, $musician_id) {
         $query = DB::connection()->prepare('SELECT id FROM feedback WHERE track_id = :track_id AND musician_id = :musician_id');
         $query->execute(array('track_id' => $track_id, 'musician_id' => $musician_id));
         $rows = $query->fetchAll();
@@ -141,7 +141,7 @@ class Feedback extends BaseModel {
     public function canCreateFeedback() {
         $errors = array();
         if ($this->id != null) {
-            // Feedback has already been given, no need to validate.
+            // Missing ID means that existing feedback is being edited.
             return $errors;
         } else {
             if (self::trackHasSeparateFeedbackFromMusician($this->track_id, $this->musician_id)) {
