@@ -63,7 +63,7 @@ class FeedbackController extends BaseController {
         $feedback = Feedback::find($id);
         $musician = self::get_user_logged_in();
         if ($musician->id != $feedback->musician_id) {
-            Redirect::to('/tracks', array('message' => 'You do not have permission to delete feedback that is your own. '));
+            Redirect::to('/tracks', array('message' => 'You do not have permission to delete feedback that is not your own. '));
         } else {
             $feedback->destroy();
             Redirect::to('/tracks', array('message' => 'Your feedback has been deleted. '));
