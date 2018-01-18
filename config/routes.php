@@ -12,57 +12,6 @@
       Redirect::to('/tracks');
   });
 
-  $routes->group('/suunnitelmat', function () use ($routes) {
-
-      $routes->get('/login', function() {
-          PlanController::login();
-      });
-
-      $routes->get('/register', function() {
-          PlanController::register();
-      });
-
-      $routes->get('/tracks', function() {
-          PlanController::track_list();
-      });
-
-      $routes->get('/tracks/1', function() {
-          PlanController::track_page();
-      });
-
-      $routes->get('/feedback', function() {
-          PlanController::feedback_list();
-      });
-
-      $routes->get('/feedback/1', function() {
-          PlanController::feedback_page();
-      });
-
-      $routes->get('/tracks/1/add_feedback', function() {
-          PlanController::feedback_add();
-      });
-
-      $routes->get('/tracks/create_form', function() {
-          PlanController::track_add();
-      });
-
-      $routes->get('/tags', function() {
-          PlanController::tags();
-      });
-
-      $routes->get('/tags/1/edit_form', function() {
-          PlanController::tag_edit();
-      });
-
-      $routes->get('/feedback/1/edit_form', function() {
-          PlanController::feedback_edit();
-      });
-
-      $routes->get('/tracks/1/edit_form', function() {
-          PlanController::track_edit();
-      });
-  });
-
   $routes->get('/hiekkalaatikko', 'check_logged_in', function() {
     PlanController::sandbox();
   });
