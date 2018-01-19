@@ -107,7 +107,7 @@
           FeedbackController::update($id);
       });
 
-      $routes->post('/:id/destroy', 'check_logged_in', function($id) {
+      $routes->post('/:id/destroy', 'check_user_owns_feedback', 'check_logged_in', function($id) {
           FeedbackController::destroy($id);
       });
 
