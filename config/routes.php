@@ -8,6 +8,11 @@
       BaseController::check_user_can_upload();
   }
 
+  function check_user_owns_feedback($route){
+      $id = $route->getParams()['id'];
+      FeedbackController::checkUserCanEditOrDelete($id);
+  }
+
   $routes->get('/', function() {
       Redirect::to('/tracks');
   });
@@ -94,11 +99,11 @@
           FeedbackController::store();
       });
 
-      $routes->get('/:id/edit', 'check_logged_in', function($id) {
+      $routes->get('/:id/edit', 'check_logged_in', 'check_user_owns_feedback', function($id) {
           FeedbackController::edit($id);
       });
 
-      $routes->post('/:id/edit', 'check_logged_in', function($id) {
+      $routes->post('/:id/edit', 'check_logged_in', 'check_user_owns_feedback', function($id) {
           FeedbackController::update($id);
       });
 

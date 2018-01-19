@@ -70,4 +70,12 @@ class FeedbackController extends BaseController {
         }
     }
 
+    public static function checkUserCanEditOrDelete($id) {
+        $musician = self::get_user_logged_in();
+        $feedback = Feedback::find($id);
+        if($musician->id != $feedback->musician_id) {
+            Redirect::to('/', array('message' => 'You can not edit or delete feedback that you have not given. '));
+        }
+    }
+
 }
