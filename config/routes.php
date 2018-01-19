@@ -23,6 +23,11 @@
       FeedbackController::checkUserCanView($id);
   }
 
+  function check_user_can_submit_feedback($route){
+      $id = getIdFromRoute($route);
+      TrackController::checkUserCanSubmitFeedback($id);
+  }
+
   function getIdFromRoute($route) {
       return $route->getParams()['id'];
   }
@@ -93,7 +98,7 @@
           TrackController::update($id);
       });
 
-     $routes->get('/:id/feedback/new', 'check_logged_in', function($trackid){
+     $routes->get('/:id/feedback/new', 'check_logged_in', 'check_user_can_submit_feedback', function($trackid){
          FeedbackController::create($trackid);
      });
 

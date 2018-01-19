@@ -90,4 +90,14 @@ class TrackController extends BaseController{
         }
     }
 
+    public static function checkUserCanSubmitFeedback($track_id){
+        $musician = self::get_user_logged_in();
+        $track = Track::find($track_id);
+        $isOwnerOfTrack = ($musician->id == $track->musician_id);
+        $hasGivenFeedbackForTrack = Feedback::trackHasSeparateFeedbackFromMusician($track_id, $musician->id);
+        if ($isOwnerOfTrack || $hasGivenFeedbackForTrack) {
+            Redirect::to('/', array('message' => 'You do not have permission to give feedback to the track. '));
+        }
+    }
+
 }
