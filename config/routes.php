@@ -13,6 +13,11 @@
       FeedbackController::checkUserCanEditOrDelete($id);
   }
 
+  function check_user_owns_track($route){
+      $id = getIdFromRoute($route);
+      TrackController::checkUserOwnsTrack($id);
+  }
+
   function check_user_can_view_feedback($route){
       $id = getIdFromRoute($route);
       FeedbackController::checkUserCanView($id);
@@ -76,15 +81,15 @@
           TrackController::show($id);
       });
 
-      $routes->post('/:id/destroy', 'check_logged_in', function($id){
+      $routes->post('/:id/destroy', 'check_logged_in', 'check_user_owns_track', function($id){
           TrackController::destroy($id);
       });
 
-      $routes->get('/:id/edit', 'check_logged_in', function($id){
+      $routes->get('/:id/edit', 'check_logged_in', 'check_user_owns_track', function($id){
           TrackController::edit($id);
       });
 
-      $routes->post('/:id/edit', 'check_logged_in', function($id){
+      $routes->post('/:id/edit', 'check_logged_in', 'check_user_owns_track', function($id){
           TrackController::update($id);
       });
 

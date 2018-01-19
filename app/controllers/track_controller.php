@@ -82,4 +82,12 @@ class TrackController extends BaseController{
         return $attributes;
     }
 
+    public static function checkUserOwnsTrack($id) {
+        $track = Track::find($id);
+        $musician = self::get_user_logged_in();
+        if($track->musician_id != $musician->id) {
+            Redirect::to('/', array('message' => 'You are not allowed to edit or delete tracks that you have not uploaded. '));
+        }
+    }
+
 }
