@@ -9,8 +9,17 @@
   }
 
   function check_user_owns_feedback($route){
-      $id = $route->getParams()['id'];
+      $id = getIdFromRoute($route);
       FeedbackController::checkUserCanEditOrDelete($id);
+  }
+
+  function check_user_can_view_feedback($route){
+      $id = getIdFromRoute($route);
+      FeedbackController::checkUserCanView($id);
+  }
+
+  function getIdFromRoute($route) {
+      return $route->getParams()['id'];
   }
 
   $routes->get('/', function() {
@@ -91,7 +100,7 @@
           FeedbackController::index();
       });
 
-      $routes->get('/:id', 'check_logged_in', function($id) {
+      $routes->get('/:id', 'check_logged_in', 'check_user_can_view_feedback', function($id) {
           FeedbackController::show($id);
       });
 

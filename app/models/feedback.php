@@ -159,4 +159,21 @@ class Feedback extends BaseModel {
         return $errors;
     }
 
+    public static function getUsersWithViewAccess($id) {
+        $statement = 'SELECT feedback.musician_id, track.musician_id as track_user_id FROM feedback ';
+        $statement .= 'LEFT JOIN track ON feedback.track_id = track.id WHERE feedback.id = :id';
+        $query = DB::connection()->prepare($statement);
+        $query->execute(array('id' => $id));
+        return $query->fetch();
+    }
+
+    public static function userHasViewAccess($id, $user_id) {
+        $allowedUsers = self::getUsersWithViewAccess($id);
+        if ($allowedUsers) {
+            return in_array($user_id, $allowedUsers);
+        } else {
+            return false;
+        }
+    }
+
 }

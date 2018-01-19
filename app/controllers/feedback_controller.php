@@ -78,4 +78,11 @@ class FeedbackController extends BaseController {
         }
     }
 
+    public static function checkUserCanView($id) {
+        $musician = self::get_user_logged_in();
+        if(!Feedback::userHasViewAccess($id, $musician->id)) {
+            Redirect::to('/', array('message' => 'You do not have access to feedback that you have not given or received. '));
+        }
+    }
+
 }
